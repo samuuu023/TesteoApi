@@ -1,0 +1,66 @@
+### Ejecutar con la API y MySQL iniciados. Sustituir IDs y fecha por datos reales.
+@base = http://localhost:8080
+@token = PEGAR_TOKEN_DEL_LOGIN
+
+### Salud
+GET {{base}}/api/salud
+
+### Login
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{"login":"admin@barberia.com","clave":"Admin123!"}
+
+### Crear servicio
+POST {{base}}/api/servicios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"nombre":"Corte clásico","precio":7.50,"duracionMinutos":30,"activo":true}
+
+### Crear cliente
+POST {{base}}/api/clientes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"nombre":"Samuel Orellana","telefono":"71234567","email":"samuel@example.com"}
+
+### Crear barbero
+POST {{base}}/api/barberos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"nombre":"Eduard Ayala","telefono":"76543210","especialidad":"Corte y barba","activo":true}
+
+### Crear cita: sustituir fecha por un día futuro de lunes a sábado.
+POST {{base}}/api/citas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"clienteId":1,"barberoId":1,"servicioId":1,"inicio":"2030-01-07T09:00:00","observaciones":"Corte clásico"}
+
+### Agenda
+GET {{base}}/api/citas/agenda?fecha=2030-01-07
+Authorization: Bearer {{token}}
+
+### Confirmar cita
+PATCH {{base}}/api/citas/1/estado
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"estado":"CONFIRMADA"}
+
+### Consultar servicios
+GET {{base}}/api/servicios?buscar=corte&page=0&size=10
+Authorization: Bearer {{token}}
+
+### Cancelar cita
+PATCH {{base}}/api/citas/1/estado
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"estado":"CANCELADA"}
+
+### Eliminar cita cancelada
+DELETE {{base}}/api/citas/1
+Authorization: Bearer {{token}}
